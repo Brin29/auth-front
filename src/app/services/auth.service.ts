@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,20 +6,23 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
 
-  readonly API_URL = "http://localhost:8080/auth/register"
-
-  users: any[];
+  readonly API_URL = "/authorization/prueba"
+  readonly API_AUTH =  "/authorization/register"
+  
 
   // Permite hacer las peticiones a la API
   constructor(private http: HttpClient) {
-    this.users = [];
+    
   }
 
   getInfo(){
-    return  this.http.get<any[]>(this.API_URL);
+    return  this.http.get(this.API_URL, { responseType:
+      "text"
+     });
   }
 
-  registerUser(){
-
+  registerUser(user:any){
+    const myHeaders = new HttpHeaders({"Content-Type": "application/json"})
+    return this.http.post(this.API_AUTH, user, {headers: myHeaders})
   }
 }
